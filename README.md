@@ -12,7 +12,7 @@
 - [string-api](./string-api) lists APIs in **PHP String** .
 - [data-type](./data-type) shows the data types in PHP , which contains **INT** 、**FLOAT**、 **STRING**、**ARRAY**、**OBJECT**、**NULL**  .
 - [process-con](./process-con) shows how to use process controller to control your program .
-
+- [array](./array) shows two types of array in PHP .
 
 
 ### License
