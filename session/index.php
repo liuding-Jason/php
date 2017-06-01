@@ -22,3 +22,7 @@
  * */
 session_start() ;
 
+
+
+// 销毁session
+session_destroy();
