@@ -13,6 +13,7 @@
 - [data-type](./data-type) shows the data types in PHP , which contains **INT** 、**FLOAT**、 **STRING**、**ARRAY**、**OBJECT**、**NULL**  .
 - [process-con](./process-con) shows how to use process controller to control your program .
 - [array](./array) shows two types of array in PHP .
+- [session](./session) shows how to start a session in PHP .
 
 
 ### License
