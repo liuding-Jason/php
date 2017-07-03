@@ -18,6 +18,8 @@
 - [class](./class) shows how make a class , how to extend a class .
 - [form](./form) guide send a get or a post request .
 - [cookie](./cookie) shows how to use cookie .
+- [database](./database) shows how to operat datebase in php .
+- [pdo](./pdo) shows how to operat datebase in php data object (PDO) .
 
 ### License
 
