@@ -14,7 +14,7 @@
 - [process-con](./process-con) shows how to use process controller to control your program .
 - [array](./array) shows two types of array in PHP .
 - [session](./session) shows how to start a session in PHP .
-- [require_include](./rquire_include) shows the difference between require and include , require_once and include_once .
+
 
 ### License
 
