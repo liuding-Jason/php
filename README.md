@@ -16,6 +16,7 @@
 - [session](./session) shows how to start a session in PHP .
 - [require_include](./require_include) shows the difference between require and include , require_once and include_once .
 - [class](./class) shows how make a class , how to extend a class .
+- [form](./form) guide send a get or a post request .
 
 ### License
 
