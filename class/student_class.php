@@ -40,6 +40,7 @@ class Student {
      * Student constructor.
      * @param $name string
      * @param $age int
+     * @param $link string
      */
     public function  __construct($name , $age){
         $this->_name = $name ;
@@ -47,7 +48,7 @@ class Student {
         echo "constructor..." . "</br>" ;
         Student::$num++ ;
         if(Student::$num > Student::MAX_STUDENT_NUM){
-            thow new Exception("only ". Student::MAX_STUDENT_NUM ." students can be create!") ;
+            throw new Exception("only ". Student::MAX_STUDENT_NUM ." students can be create!") ;
         }
     }
 
