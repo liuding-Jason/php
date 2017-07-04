@@ -20,6 +20,7 @@
 - [cookie](./cookie) shows how to use cookie .
 - [database](./database) shows how to operat datebase in php .
 - [pdo](./pdo) shows how to operat datebase in php data object (PDO) .
+- [pdo-errormode](./pdo-errormode) shows the modes of error in PDO , and how use setAttribute to define a mode .
 
 ### License
 
