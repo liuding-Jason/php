@@ -22,6 +22,7 @@
 - [pdo](./pdo) shows how to operat datebase in php data object (PDO) .
 - [pdo-errormode](./pdo-errormode) shows the modes of error in PDO , and how use setAttribute to define a mode .
 - [pdo-prepare](./pdo-prepare) shows how to run pdo preparing operation .
+- [pdo-affair](./pdo-affair) is a introduction  of PDO Affair .
 
 ### License
 
