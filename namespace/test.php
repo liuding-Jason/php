@@ -16,10 +16,7 @@ namespace home ;
 
 include "./home/index.php" ;
 
-/**
- * 通过use导入对应的
- */
-use home\Home ;
-
+$home = new Home() ;
+$home->sayHello();
 
 
