@@ -18,6 +18,7 @@
 - [class](./class) shows how make a class , how to extend a class .
 - [form](./form) guide send a get or a post request .
 - [cookie](./cookie) shows how to use cookie .
+- [namespace](./namespace) shows how to use namespace in php .
 - [database](./database) shows how to operat datebase in php .
 - [pdo](./pdo) shows how to operat datebase in php data object (PDO) .
 - [pdo-errormode](./pdo-errormode) shows the modes of error in PDO , and how use setAttribute to define a mode .
