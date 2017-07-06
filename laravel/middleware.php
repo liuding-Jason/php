@@ -40,7 +40,7 @@ php artisan make:middleware YourMiddleware
 1> 创建
 php artisan make:middleware TestMiddleware
 
-2> 修改
+2> 修改 App/Http/Middleware/TestMiddleware.php
 代码1
 
 3> 注册：
@@ -61,7 +61,7 @@ protected $middleware = [
 1> 创建
 php artisan make:middleware LoginMiddleware
 
-2> 修改
+2> 修改 App/Http/Middleware/LoginMiddleware.php
 代码2
 
 3> 注册：
@@ -88,9 +88,10 @@ Route::get("/session" , function(){
 });
 
 */
+?>
 
-// 代码1
 <?php
+	// TestMiddleware.php
 	
 	namespace App\Http\Middleware ;
 
@@ -121,6 +122,7 @@ Route::get("/session" , function(){
 
 
 <?php
+	// LoginMiddleware.php
 	
 	namespace App\Http\Middleware ;
 	use Closure ;
