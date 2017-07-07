@@ -33,7 +33,9 @@ Route::get("/user/edit/{id}" , 'TestController@edit');
 Route::get("/user/shengji/{id}" , [
 	"middleware" => "login" ,
 	"uses" => 'TestController@shengji'
-]);
+]) ;
+
+Route::get("/user/jinyong/{id}" , 'TestController@jinyong')->middleware('login') ;
 
 
 */
@@ -41,35 +43,26 @@ Route::get("/user/shengji/{id}" , [
 ?>
 
 <?php
-	
 	// TestController.php
-
 	namespace App\Http\Controller ;
-
 	use Illuminate\Http\Request ;
-
 	use App\Http\Request ;
 	use App\Http\Controllers\Controller ;
-
-	/**
-	* 
-	*/
 	class TestController extends Controller
 	{
 		public function show(){
 			// 在laravel中，可以使用return的方式，向客户端返回内容
 			return "This is test page!" ;
 		}
-		
 		public function edit($id){
 			return "This is edit page!user's id is " . $id ;
 		}
-
 		public function shengji($id){
 			return "This is shengji page!user's id is " . $id ;
 		}
-
+		public function jinyong($id){
+			return "This is jinyong page!user's id is " . $id ;
+		}
 	}
-
 ?>
 
