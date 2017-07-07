@@ -80,7 +80,7 @@ Route::get("/info" , [
 // 单个路由限制 -- 方式二
 Route::get("/admin" , function(){
 	echo "这是后台页面！" ;
-}).middleware("login");
+})->middleware("login");
 
 // 设置session
 Route::get("/session" , function(){
