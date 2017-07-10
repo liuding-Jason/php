@@ -69,6 +69,14 @@ Route::get("/response/view" , 'ResponseController@viewTest') ;
 注意：
 模版文件存放在laravel根路径下resource/views中， 模版文件必须以 .blade.php 结尾
 
+
+6、设置相应头信息
+
+1> 新建路由匹配规则：
+Route::get("/response/header" , 'ResponseController@headerTest') ;
+
+2> 使用response()->header(key , value)对相应头进行设置
+
  */
 
 ?>
@@ -95,7 +103,7 @@ Route::get("/response/view" , 'ResponseController@viewTest') ;
 
 		// 响应json
 		puublic function jsonTest(){
-			return response()->json([name -> 'jack' , age -> 11]);
+			return response()->json([name => 'jack' , age => 11]);
 		}
 
 		// 下载文件
@@ -115,6 +123,11 @@ Route::get("/response/view" , 'ResponseController@viewTest') ;
  		// 模版解析
  		public function viewTest(){
  			return view("form.blade.php") ;
+ 		}
+
+ 		// 响应头信息设置
+ 		public function headerTest(){
+ 			return response("123")->header('Context-type' , 'Application/json')->header(age , 14) ;
  		}
 
 	}

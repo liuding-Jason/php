@@ -86,17 +86,17 @@ Route::get("/admin" , function(){
 Route::get("/session" , function(){
 	return session(["uid" => 10]);
 });
+ */
 
-*/
 ?>
+
+
 
 <?php
 	// TestMiddleware.php
 	
 	namespace App\Http\Middleware ;
-
 	use Closure ;
-
 	class TestMiddleware {
 		
 		/**
@@ -119,7 +119,6 @@ Route::get("/session" , function(){
 	}
 
 ?>
-
 
 <?php
 	// LoginMiddleware.php

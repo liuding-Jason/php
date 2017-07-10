@@ -79,7 +79,7 @@ Route::resource("photos" , "PhotosController") ;
 3> 修改PhotosController.php文件
 
 
-*/
+
 
 ?>
 
@@ -180,7 +180,7 @@ Route::resource("photos" , "PhotosController") ;
 ?>
 
 
-
+ */
 
 
 
