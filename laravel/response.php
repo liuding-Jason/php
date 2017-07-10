@@ -11,7 +11,11 @@
 
 响应 -- response
  
-响应是指服务器端对客户端的请求，进行的响应的过程。在http协议中，响应服务端的响应包含响应header、响应body。
+响应是指服务器端对客户端的请求，进行的响应的过程。在http协议中，响应服务端的响应包含响应行、响应header、响应body。
+引用：
+1、响应行，则为第一行，其中包括：GET或POST URL HTTP版本（注意：URL的信息必须是已经urlencoded编码后的（浏览器不会自动编码），否则将不符合要求，如：中文）
+2、响应头，则第二行之后的信息，可以在 HttpConext.Request.Headers中查询，浏览器设置后自动附带上的。
+3、响应体，则在响应头信息结束后，隔一空行之后的信息，响应体的编码方式与enctype的设置有关，其中enctype的默认值是application/x-www-form-urlencoded，浏览器会自动编码非法字符（这与响应行不同）；对上传文件数据时，则要将method设置为post和enctype设置为multipart/form-data。
 
 1、响应普通的字符串
 
