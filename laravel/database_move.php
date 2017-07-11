@@ -57,6 +57,9 @@ php artisan migrate:refresh
 常用语句：
 增加唯一索引：$table->unique('username')
 增加一般索引：$table->index('email')
+删除主键：$table->dropPrimary("PRIMARY")
+删除唯一索引:$table->dropUnique("username")
+删除一般索引：$table->dropIndex("username")
 
 查看索引语句：
 show index from test
@@ -69,14 +72,13 @@ $table->engine = 'innodb' ;
 基本信息：
 检测表结构变化，如果表存在则不创建，如果表不存在则创建
 检测表字段变化，如果表字段存在则不添加，否则添加字段
-
-
+注意：需要将down中的回滚操作进行注释
 
 使用方法：
 1> 检测数据库中，是否存在表格
 Schema::hasTable('test')，存在返回true，否则返回false
 
-2> 针对上面检测结果进行不同的操作：
+针对上面检测结果进行不同的操作：
 if(!Schema::hasTable('test')){
 	Schema::create("test" , function(Blueprint $table){
 		$table->increments('id') ;
@@ -84,11 +86,46 @@ if(!Schema::hasTable('test')){
 	}) ;
 }else{
 	Schema::table('test' , function($table){
-		$table->unique('name');
+		$table->tinyInteget('sex')->default(1) ;
 	}) ;
 }
 
-3、
+2> 检测表字段是否存在：
+Schema::hasColumn(tablename , keyname)
+
+针对检测结果进行不同的操作：
+if(!Schema::hasTable("test")){
+	Schema::create('table' , function(Blueprint $table){
+		$table->char('name' , 50)->commit("名称") ;
+		......
+	}) ;
+}else{
+	if(!Schema::hasColumn("test" , "gender")){
+		Schema->table("test" , function($table){
+			$table->tinyInteger("gender")->commit("性别");
+		}) ;
+	}
+}
+
+
+3> 修改字段属性：
+需要安装一个composer的扩展
+composer require doctrine/dbal
+在function($table){}中输入：
+if(Schema::hasColumn("test" , "password")){
+	// 将password类型修改为text
+	$table->text('password')->change() ; 
+}
+
+
+4> 删除字段
+ if(Schema::hasCloumn("test" , "gender")){
+	Schema::table("test" , function($table){
+		$table->dropColumn("gender");
+	});
+ }
+
+
 
 
 
@@ -106,6 +143,17 @@ if(!Schema::hasTable('test')){
 	use Illuminate\Database\Migrations\Migration ;
 
 	class Test extends Migration {
+		
+		/**
+		* Test a table whether has the index
+		*/
+		public function index($table , $index){
+			$conn = Schema::getConnection() ;
+			$dbSchemaManager = $conn->getDoctrineSchemaManager() ;
+			$doctrineTable = $dbSchemaManager->listTableDetails($table) ;
+			return $doctrineTable->hasIndex($index) ;
+		}
+
 		/**
 		* Run the migration
 		* @return void
@@ -129,11 +177,16 @@ if(!Schema::hasTable('test')){
 					$table->index("email") ;
 				});
 			}else{
-				Schema::table('test' , function($table){
-					$table->unique('name');
-				}) ;
+				if(!Schema::hasCloumn("test" , "gender")){
+					Schema::table('test' , function($table){
+						$table->tinyInteger('gender')->default(1)->commit("性别");
+					}) ;
+				}
+				// 检测主键
+				if($this->index("test" , "test_name_unique")){
+					$table->dropIndex("test_name_unique");
+				}
 			}
-			
 		}
 		/**
 		* Reverse the migration
@@ -141,7 +194,7 @@ if(!Schema::hasTable('test')){
 		*/
 		public function down(){
 			// 删除表格
-			Schema::drop("test") ;
+			//Schema::drop("test") ;
 		}
 
 	}
