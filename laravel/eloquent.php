@@ -27,8 +27,9 @@ php artisan make:model Model/Order -m
 2、模型限定
 限定规则：
 1> 模型所对应的默认的表名是在模型后面加s，如果模型名称后面有s，则表名跟模型名称相同，例如：Order => orders  ， Goods => goods
-2> 主键字段id
-3> 时间字段create_at、updated_at
+2> 默认创建主键字段id
+3> 默认创建时间字段create_at、updated_at
+4> 模型文件中 protected $fillable = ['name', 'email', 'password'] 表示设置允许模型文件操作的字段
 
 3、修改模型默认的限定（不建议）
 1> 进入laravel根路径下的app中，打开对应的模版文件
@@ -90,10 +91,38 @@ hasMany('App\Post' , 'user_id') ;
 
 7、从属关系模型建立
 1> 修改routes.php文件，新建路由匹配规则：
-Route::get("/relation/" , 'RelationController@belongTest'); 
+Route::get("/relation/belong" , 'RelationController@belongTest'); 
 
 2> 建立user与country之间从属关系，在user模型文件中，通过设置：
 belongsTo('App\Country' , 'user_id') ;
+
+8、多对多关系模型建立
+1> 修改routes.php文件，新建路由匹配规则：
+Route::get("/relation/maynToMany" , 'RelationController@manyToMany');
+
+2> 建立group和user之间多对多的关系，在user模型文件中，通过设置：
+belongsToMany('App\Group' , 'group_user' , 'user_id' , 'group_id' );
+注意：
+第二个参数表示 多对多关系中的关联表  
+第三个参数表示 多对多关系中的 本模型关联字段
+第四个参数表示 多对多关系中的 关联模型关联字段
+
+9、一对多关系模型写入
+1> 修改routes.php文件，新建路由匹配规则：
+Route::get("/relation/writeMany" , 'RelationController@writeMany');
+
+10、其他的关系模型操作
+1> 多对多模型的添加：将用户id为1和组id为2进行关联
+$user = User::find(2) ;
+$user->manyToMany()->attach(1) ;
+
+2> 多对多模型的删除：删除用户id为1的组id为2的关联关系
+$user = User::find(1) ;
+$user->manyToMany()->detach(2) ;
+
+3> 多对多模型的同步：用户id为1的与所有的组建立关联关系
+$user = User::find(1) ;
+$user->manyToMany()->sync([1 , 2 , 3 , 4]);
 
 代码二
 
@@ -189,7 +218,21 @@ class User extends Authenticatable
     * 一对多
     */
     public function manyPost(){
-         return $this->hasMany('App\Post' , 'user_id');
+        return $this->hasMany('App\Post' , 'user_id');
+    }
+    /**
+    * 做模型之间从属关联
+    * 从属关系
+    */
+    public function belong(){
+        return $this->belongsTo('App\Country' , 'country_id');
+    }
+    /**
+     * 做模型之间关联
+     * 多对多关联
+     */
+    public function manyToMany(){
+        return $this->belongsToMany('App\Group' , 'group_user' , 'user_id' , 'group_id') ;
     }
         
 }
@@ -198,6 +241,7 @@ class User extends Authenticatable
 
 <!-- 代码三 -->
 <?php
+// RelationController.php 文件
 namespace App\Http\Controllers;
 use App\User ;
 use Illuminate\Http\Request;
@@ -218,6 +262,27 @@ class RelationController extends Controller
         // 获取多个信息
         $data = $user->manyPost ;
         dd($data) ;
+    }
+    // belongTest 从属关系
+    public function belongTest(){
+        $user = User::find(1) ;
+        // 获取从属关系
+        //$count = $user->belong()->first() ;
+        $count = $user->belong ;
+        dd($count);
+    }
+    // 利用模型执行 一对多写入
+    public function writeMany(){
+        // 引入数据库迁移对象
+        $post = new Post() ;
+        $post->title = "test_title_1" ;
+        $post->content = "test_content_1" ;
+        $post->author = "jack" ;
+        // 引入user模型
+        $user = User::find(2) ;
+        if($user->manyPost()->save($post)){
+            echo "写入成功！" ;
+        }
     }
 }
 ?>
