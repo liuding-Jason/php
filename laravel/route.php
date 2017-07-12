@@ -85,7 +85,6 @@ Route::get("/admin/users/list" , [
 
 9、路由组 -- 可以为某些路由增加中间件，用于组别路由的验证和处理规则
 
-
 Route::group([] , function(){
     Route::get("/{type}-{id}" , function($type , $id){
         echo "当前类型为：" . $type . " ; 当前的id为：" . $id ;

@@ -63,10 +63,43 @@ Route::get("/db/affair" , 'DbTestController@affair');
 2> 修改routes.php，新增路由匹配规则：
 Route::get("/db/slever" , 'DbTestController@sleverTest');
 
+4、构造器
+构造器是laravel封装好的增删改查操作的一些方法，方便我们对数据库进行操作。
+常用语句：
+单条插入语句：DB::table('users')->insert(["name" => 'jack' , "age" => 16 , "gender" => 'male']) ;
+多条插入语句：DB::table('users')->insert([
+	["name" => 'a' , "age" = > 16 , "gender" => 16] ,
+	["name" => 'b' , "age" = > 18 , "gender" => 16] ,
+	["name" => 'c' , "age" = > 19 , "gender" => 16] 
+]);
+插入并获取id：DB::table("users")->insertGetId(['name' => 'l' , "age" => 15 , "gender" => "male"]);
+更新语句：DB::table("users")->where("id" , "=" , 2)->update(['name' => 'lll']) ;
+删除语句：DB::table("users")->where("id" , "<" , 30)->delete() ;
+查询语句：DB::table("users")->get() ;
+查询第一条：DB::table("users")->first() ;
+查询第一个结果的某个字段：DB::table("users")-value("name") ;
+查询表中的某列数据：DB::table("users")->lists("name") ;
 
+连贯操作：
+查询某些字段：DB::table("users")->select("name" , "age").get() ;
+查询满足条件的数据：DB::table("users")->where("id" , "=" , 18)->first() ;
+查询满足多个条件的数据：DB::table("users")->where('id' , "=" , 18)->orWhere("id" , "=" , 16)->get() ;
+查询某个范围内的数据： DB::table("users")->whereBetween("id" , [5 , 10])->get() ;
+查询在某几个中的数据：DB::table("users")->whereIn("id" , [1 , 16 , 18])->get() ;
+排序语句：DB::table("users")->orderBy("id","desc")->get()
+分页语句：DB::table("users")->skip(10)->take(5)->where("id" , ">" , 100)->get();
+连表语句：DB::table("goods")->leftJoin('cate' , 'cate.id' , "=" , 'goods.gid')->where('goods.gid' ,'<' , 20)->get() ; //在goods表中连接cate表，使得cate的id和goods的gid相同
+获取总数：DB::table("users")->count() ;
+获取最大值：DB::table("users")->max("age") ;
+获取平均值：DB::table("users")->avg("age") ;
 
+5、记录sql语句
+1> 修改routes.php，加入下面代码，即可在页面中打印对应的sql语句：
+Event::listen('illuminate.query' , function($query){
+	var_dump($query);
+}) ;
 
- */
+*/
 
 ?>
 
