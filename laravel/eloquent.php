@@ -31,7 +31,7 @@ php artisan make:model Model/Order -m
 3> 时间字段create_at、updated_at
 
 3、修改模型默认的限定（不建议）
-1>进入laravel根路径下的app中，打开对应的模版文件
+1> 进入laravel根路径下的app中，打开对应的模版文件
 2> 修改模版默认限定的表名：public $table = "newname" ;
 3> 修改模版默认限定的时间字段：public $timestamps = false ;
 4> 修改模版默认限定的主键字段：public $primaryKey = 'uid' ;
@@ -50,14 +50,15 @@ Route::get("/post/update" , 'PostController@update') ;
 $data = \App\Post::get() ;
 $dataList = \App\Post::orderBy('id' ,"desc")->where("id" , "<" , 100)->get() ;
 
-4、多种关系的模型建设
+4、多种关系的模型建设 
 
 模型关系：
 一对一关系 每一个用户 id 对应 一个 用户详情信息
 一对多关系 每一个用户 id 对应 多篇 编辑文章 、 每一个用户 id 对应 多张 银行卡
-属于关系   每一个用户 id 属于 一个 国家
+从属于关系 每一个用户 id 属于 一个 国家
 多对多关系 每一个用户 id 属于 多个组 ，每一个组 id 可以 包含多个用户
-
+通过model文件建立多个模型之间的关联，通过建立模型之间的关系，可以方便数据的获取
+基础信息搭建：
 1> 创建多个模型
 php artisan make:model User -m
 php artisan make:model UserInfo -m
@@ -67,19 +68,34 @@ php artisan make:model Group -m
 
 2> 分别修改对应的数据库迁移文件，并创建对应的测试数据
 
-3> 通过model文件建立多个模型之间的关联，通过建立模型之间的关系，可以方便数据的获取
+5、一对一模型建设
 通过建立一对一的关系，可以在获取到主表信息的同时也就能获取到关联表的数据
 例如：在user模型中，建立一对一的userInfo关联关系
 
-4> 新建RelationController控制器，进入laravel根路径下，执行：
+1> 新建RelationController控制器，进入laravel根路径下，执行：
 php artisan make:controller RelationController
 
-
-5> 修改routes.php文件，新建路由匹配规则：
+2> 修改routes.php文件，新建路由匹配规则：
 Route::get("/relation/index" , 'RelationController@index');
 
-6> 修改对应的index方法，通过一对一关系模型的建立读取userInfo的信息
-代码三
+3> 修改对应的index方法，通过一对一关系模型的建立读取userInfo的信息
+hasOne('App\UserInfo' , 'user_id')
+
+6、一对多关系模型建立
+1> 修改routes.php文件，新建路由匹配规则：
+Route::get("/relation/many" , 'RelationController@manyTest');
+
+2> 建立user与post文章之间一对多的关系，在user模型文件中，通过设置：
+hasMany('App\Post' , 'user_id') ;
+
+7、从属关系模型建立
+1> 修改routes.php文件，新建路由匹配规则：
+Route::get("/relation/" , 'RelationController@belongTest'); 
+
+2> 建立user与country之间从属关系，在user模型文件中，通过设置：
+belongsTo('App\Country' , 'user_id') ;
+
+代码二
 
 */
 ?>
@@ -168,6 +184,14 @@ class User extends Authenticatable
     public function userInfo(){
         return $this->hasOne('App\UserInfo' , 'user_id');
     }
+    /**
+    * 做模型之间的关联
+    * 一对多
+    */
+    public function manyPost(){
+         return $this->hasMany('App\Post' , 'user_id');
+    }
+        
 }
 
 ?>
@@ -179,14 +203,21 @@ use App\User ;
 use Illuminate\Http\Request;
 class RelationController extends Controller
 {
-    //index
+    // index
     public function index(){
        $user = User::find(1) ;
        // 读取详细信息 方法一
-        //$detail = $user->userInfo()->first() ;
-        //读取详细信息 方法二
-        $detail = $user->userInfo ;
+       //$detail = $user->userInfo()->first() ;
+       //读取详细信息 方法二
+       $detail = $user->userInfo ;
        dd($detail);
+    }
+    // manyTest
+    public function manyTest(){
+        $user = User::find(1) ;
+        // 获取多个信息
+        $data = $user->manyPost ;
+        dd($data) ;
     }
 }
 ?>
