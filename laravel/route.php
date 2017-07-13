@@ -81,9 +81,13 @@ Route::get("/admin/users/list" , [
   "uses" => function(){
     echo route('ulist');
   }
-]);
+]) ;
 
-9、路由组 -- 可以为某些路由增加中间件，用于组别路由的验证和处理规则
+9、路由设置统一处理方法
+Route::any("/user/list" , function(){})
+表示客户端以任何一种方式请求/user/list这个地址，服务端都会以注册的方法进行处理
+
+10、路由组 -- 可以为某些路由增加中间件，用于组别路由的验证和处理规则
 
 Route::group([] , function(){
     Route::get("/{type}-{id}" , function($type , $id){
@@ -96,7 +100,7 @@ Route::group([] , function(){
 });
 
 
-10、关于路由404的设置，当路由规则匹配不到规则的时候，就会显示这个404页面内容
+11、关于路由404的设置，当路由规则匹配不到规则的时候，就会显示这个404页面内容
 在resorces/view/error新建404.blade.php文件 ， 可以作为404错误信息页面
 服务端：
 Route::get("/404" , function(){
